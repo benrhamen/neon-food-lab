@@ -398,10 +398,10 @@ window.__j=j;window.__R=()=>RECIPES.concat(ULT);window.__EE=()=>ee;setTimeout(()
 const MCLS={raw:"r",steam:"m",boil:"m",simmer:"m",poach:"m",saute:"d",fry:"d",grill:"d",roast:"d",bake:"d",smoke:"d"};
 const MCOOKGRP=["Meat","Seafood","Insects","Pasta & noodles","Rice, grains & plant protein"];
 const MREADY=["tofu","tempeh","ham","bacon","pepperoni","sausage","chorizo","hotdog","seitan","konjac","crab","anchovy","salmonroe","sardine","eel","seaweed","nori","wakame","laver"];
-const MSPEC={"caprese-salad":{tomato:["raw"],mozzarella:["raw"]}};
+const MSPEC={"caprese-salad":{tomato:["raw"],mozzarella:["raw"]},"gazpacho":{tomato:["raw"],cucumber:["raw"],pepper:["raw"],garlic:["raw"],onion:["raw"]},"greek-salad":{tomato:["raw"],cucumber:["raw"],onion:["raw"],pepper:["raw"]},"guacamole-toast":{avocado:["raw"],tomato:["raw"]},"shirazi-salad":{cucumber:["raw"],tomato:["raw"],onion:["raw"]},"israeli-salad":{cucumber:["raw"],tomato:["raw"],onion:["raw"],parsley:["raw"]},"waldorf-salad":{apple:["raw"],celery:["raw"],grapes:["raw"]},"coleslaw-salad":{cabbage:["raw"],carrot:["raw"]}};
 const MNAME={raw:"raw",steam:"steamed",boil:"boiled",simmer:"simmered",poach:"poached",saute:"saut\u00e9ed",fry:"fried",grill:"grilled",roast:"roasted",bake:"baked",smoke:"smoked"};
 const MUSTCOOK=id=>{let x=j(id);return !!x&&MCOOKGRP.includes(x.group)&&!MREADY.includes(id)};
-const MOK=(r,n,m)=>{if(!MSPEC[r.id])return true;let sp=MSPEC[r.id]&&MSPEC[r.id][n.id];if(sp)return sp.includes(m);if(n.role==="garnish")return true;let x=j(n.id);if(!x)return true;let g=r.great||[],cl=new Set(g.map(k=>MCLS[k])),cls=MCLS[m];
+const MOK=(r,n,m)=>{if(!MSPEC[r.id]||!MSPEC[r.id][n.id])return true;let sp=MSPEC[r.id]&&MSPEC[r.id][n.id];if(sp)return sp.includes(m);if(n.role==="garnish")return true;let x=j(n.id);if(!x)return true;let g=r.great||[],cl=new Set(g.map(k=>MCLS[k])),cls=MCLS[m];
 if(m==="raw"){if(MUSTCOOK(n.id))return cl.has("r")&&!x.bad.includes("raw");if(cl.has("r"))return true;return ["Cheese","Bread","Add-ons","Fruit"].includes(x.group)||MREADY.includes(n.id)}
 if(cl.size===1&&cl.has("r"))return MUSTCOOK(n.id)||MREADY.includes(n.id);
 if(n.role==="cook")return cl.has(cls);return true};
